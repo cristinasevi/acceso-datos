@@ -27,4 +27,6 @@ public class Game {
     private LocalDate releaseDate;
     @Column
     private float price;
+    @Column
+    private String category;
 }
