@@ -1,15 +1,23 @@
 package acceso.datos.games.controller;
 
 import acceso.datos.games.domain.Game;
+import acceso.datos.games.dto.GameOutDto;
 import acceso.datos.games.exception.ErrorResponse;
 import acceso.datos.games.exception.GameNotFoundException;
 import acceso.datos.games.service.GameService;
+import jakarta.validation.Valid;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 
@@ -17,16 +25,20 @@ public class GameController {
 
     @Autowired
     private GameService gameService;
+    @Autowired
+    private ModelMapper modelMapper;
 
     @GetMapping("/games")
-    public ResponseEntity<List<Game>> getAll(@RequestParam(value = "category", defaultValue = "") String category) {
+    public ResponseEntity<List<GameOutDto>> getAll(@RequestParam(value = "category", defaultValue = "") String category) {
         List<Game> games;
         if(!category.isEmpty()) {
             games = gameService.findByCategory(category);
         } else {
             games = gameService.findAll();
         }
-        return ResponseEntity.ok(games);
+
+        List<GameOutDto> gameOutDtos = modelMapper.map(games, new TypeToken<List<GameOutDto>>() {}.getType());
+        return ResponseEntity.ok(gameOutDtos);
     }
 
     @GetMapping("/games/{id}")
@@ -36,7 +48,7 @@ public class GameController {
     }
 
     @PostMapping("/games")
-    public ResponseEntity<Game> addGame(@RequestBody Game game) {
+    public ResponseEntity<Game> addGame(@Valid @RequestBody Game game) {
         // ToDo Añadir validación
         // ToDo Comprobar que no exista ya un juego con el mismo nombre
         Game newGame = gameService.add(game);
@@ -57,7 +69,20 @@ public class GameController {
 
     @ExceptionHandler(GameNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleException(GameNotFoundException gnfe) {
-        ErrorResponse errorResponse = new ErrorResponse(404, "not-found", "The game does not exist");
+        ErrorResponse errorResponse = ErrorResponse.notFound("The game does not exist");
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     };
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorResponse> handleException(MethodArgumentNotValidException manve) {
+        Map<String,String> errors = new HashMap<>();
+        manve.getBindingResult().getAllErrors().forEach((error) -> {
+            String fieldName = ((FieldError) error).getField();
+            String message = error.getDefaultMessage();
+            errors.put(fieldName,message);
+        });
+
+        ErrorResponse errorResponse = ErrorResponse.validationError(errors);
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
 }

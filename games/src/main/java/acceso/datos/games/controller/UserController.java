@@ -1,10 +1,8 @@
 package acceso.datos.games.controller;
 
-import acceso.datos.games.domain.Game;
 import acceso.datos.games.domain.User;
 import acceso.datos.games.exception.ErrorResponse;
 import acceso.datos.games.exception.UserNotFoundException;
-import acceso.datos.games.service.GameService;
 import acceso.datos.games.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,7 +20,8 @@ public class UserController {
 
     @GetMapping("/users")
     public ResponseEntity<List<User>> getAll() {
-        return null;
+        List<User> users = userService.findAll();
+        return ResponseEntity.ok(users);
     }
 
     @GetMapping("/users/{id}")
@@ -34,7 +33,8 @@ public class UserController {
     public ResponseEntity<User> addUser(@RequestBody User user) {
         // ToDo Añadir validación
         // ToDo Comprobar que no exista ya un juego con el mismo username
-        return null;
+        User newUser = userService.add(user);
+        return new ResponseEntity<User>(newUser, HttpStatus.CREATED);
     }
 
     @PutMapping("/users/{id}")
@@ -49,7 +49,7 @@ public class UserController {
 
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleException(UserNotFoundException unfe) {
-        ErrorResponse errorResponse = new ErrorResponse(404, "not-found", "The user does not exist");
+        ErrorResponse errorResponse = ErrorResponse.notFound("The user does not exist");
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     };
 }

@@ -1,5 +1,6 @@
 package acceso.datos.games.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,5 +30,6 @@ public class User {
     private LocalDate registrationDate;
 
     @OneToMany(mappedBy = "user")
+    @JsonBackReference
     private List<Review> reviews;
 }
