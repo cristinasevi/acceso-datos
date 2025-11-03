@@ -1,0 +1,36 @@
+package acceso.datos.games.service;
+
+import acceso.datos.games.domain.User;
+import acceso.datos.games.exception.UserNotFoundException;
+import acceso.datos.games.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class UserService {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    public User add(User user) {
+        return userRepository.save(user);
+    }
+
+    public void delete(long id) throws UserNotFoundException {
+
+    }
+
+    public List<User> findAll() {
+        return null;
+    }
+
+    public User findById(long id) throws UserNotFoundException {
+        return null;
+    }
+
+    public User modify(long id, User user) throws UserNotFoundException {
+        return null;
+    }
+}

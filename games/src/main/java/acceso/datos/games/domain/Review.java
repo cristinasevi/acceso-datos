@@ -6,30 +6,32 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "games")
+@Entity(name = "reviews")
 
-public class Game {
+public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @Column(name = "review_date")
+    private LocalDate reviewDate;
+    @Column(name = "play_date")
+    private LocalDate playDate;
     @Column
-    private String name;
+    private int rate;
     @Column
     private String description;
     @Column
-    private String type;
-    @Column(name = "release_date")
-    private LocalDate releaseDate;
-    @Column
-    private float price;
-    @Column
-    private String category;
+    private boolean recommendation;
 
-    @OneToMany(mappedBy = "game")
-    private List<Review> reviews;
+    @ManyToOne
+    @JoinColumn(name = "game_id")
+    private Game game;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }
