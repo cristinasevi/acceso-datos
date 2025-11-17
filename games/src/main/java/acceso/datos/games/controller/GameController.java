@@ -1,6 +1,7 @@
 package acceso.datos.games.controller;
 
 import acceso.datos.games.domain.Game;
+import acceso.datos.games.dto.GameDto;
 import acceso.datos.games.dto.GameOutDto;
 import acceso.datos.games.exception.ErrorResponse;
 import acceso.datos.games.exception.GameNotFoundException;
@@ -30,21 +31,14 @@ public class GameController {
 
     @GetMapping("/games")
     public ResponseEntity<List<GameOutDto>> getAll(@RequestParam(value = "category", defaultValue = "") String category) {
-        List<Game> games;
-        if(!category.isEmpty()) {
-            games = gameService.findByCategory(category);
-        } else {
-            games = gameService.findAll();
-        }
-
-        List<GameOutDto> gameOutDtos = modelMapper.map(games, new TypeToken<List<GameOutDto>>() {}.getType());
-        return ResponseEntity.ok(gameOutDtos);
+        List<GameOutDto> gamesOutDto = gameService.findAll(category);
+        return ResponseEntity.ok(gamesOutDto);
     }
 
     @GetMapping("/games/{id}")
-    public ResponseEntity<Game> get(@PathVariable long id) throws GameNotFoundException {
-        Game game = gameService.findById(id);
-        return ResponseEntity.ok(game);
+    public ResponseEntity<GameDto> get(@PathVariable long id) throws GameNotFoundException {
+        GameDto gameDto = gameService.findById(id);
+        return ResponseEntity.ok(gameDto);
     }
 
     @PostMapping("/games")

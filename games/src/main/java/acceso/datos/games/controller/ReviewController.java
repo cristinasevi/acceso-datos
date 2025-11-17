@@ -3,6 +3,7 @@ package acceso.datos.games.controller;
 import acceso.datos.games.domain.Game;
 import acceso.datos.games.domain.Review;
 import acceso.datos.games.domain.User;
+import acceso.datos.games.dto.GameDto;
 import acceso.datos.games.dto.ReviewInDto;
 import acceso.datos.games.exception.ErrorResponse;
 import acceso.datos.games.exception.GameNotFoundException;
@@ -44,9 +45,9 @@ public class ReviewController {
     public ResponseEntity<Review> addReview(@RequestBody ReviewInDto reviewInDto)
             throws GameNotFoundException, UserNotFoundException {
         // ToDo Añadir validación
-        Game game = gameService.findById(reviewInDto.getGameId());
+        GameDto gameDto = gameService.findById(reviewInDto.getGameId());
         User user = userService.findById(reviewInDto.getUserId());
-        Review review = reviewService.add(reviewInDto, game, user);
+        Review review = reviewService.add(reviewInDto, gameDto, user);
         // ToDo Devolver un objeto ReviewOutDto
         return ResponseEntity.ok(review);
     }
