@@ -1,5 +1,6 @@
 package acceso.datos.games.repository;
 
+import acceso.datos.games.domain.Game;
 import acceso.datos.games.domain.Review;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -11,4 +12,5 @@ import java.util.List;
 public interface ReviewRepository extends CrudRepository<Review, Long> {
 
     List<Review> findAll();
+    List<Review> findByGame(Game game);
 }
