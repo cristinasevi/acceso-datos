@@ -11,5 +11,5 @@ services:
       MYSQL_ROOT_PASSWORD: $MARIADB_ROOT_PASSWORD
     ports:
       - "3307:3306"
-    volumes:
-      - C:/Users/Cristina/Documents/mariadb:/var/lib/mysql
+#    volumes:
+#      - C:/Users/Cristina/Documents/mariadb:/var/lib/mysql
