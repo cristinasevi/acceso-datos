@@ -17,10 +17,10 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Entity(name = "Game")
+@Entity(name = "GameV2")
 @Table(name = "games")
 
-public class Game {
+public class GameV2 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -41,6 +41,9 @@ public class Game {
     private String category;
     @Column
     private String comments;
+    @Column
+    @NotNull(message = "rate is mandatory")
+    private Integer rate = 0;
 
     @OneToMany(mappedBy = "game")
     @JsonBackReference

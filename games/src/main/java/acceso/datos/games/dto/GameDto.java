@@ -19,4 +19,5 @@ public class GameDto {
     private String category;
     private float price;
     private long daysToRelease;
+    private int rate;
 }

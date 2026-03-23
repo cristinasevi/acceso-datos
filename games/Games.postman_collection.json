@@ -36,11 +36,13 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{HOST}}/games",
+              "raw": "{{HOST}}/api/v1/games",
               "host": [
                 "{{HOST}}"
               ],
               "path": [
+                "api",
+                "v1",
                 "games"
               ]
             }
@@ -305,7 +307,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"name\": \"{{name1}}\",\r\n    \"description\": \"{{$randomPhrase}}\",\r\n    \"type\": \"{{type1}}\",\r\n    \"releaseDate\": \"{{releaseDate}}\",\r\n    \"price\": {{$randomPrice}},\r\n    \"category\": \"{{category1}}\",\r\n    \"comments\": \"{{$randomLoremSentence}}\"\r\n}",
+              "raw": "{\r\n    \"name\": \"{{name1}}\",\r\n    \"description\": \"{{$randomPhrase}}\",\r\n    \"type\": \"{{type1}}\",\r\n    \"releaseDate\": \"{{releaseDate}}\",\r\n    \"price\": {{$randomPrice}},\r\n    \"category\": \"{{category1}}\",\r\n    \"comments\": \"{{$randomLoremSentence}}\",\r\n    \"rate\": 8\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -313,11 +315,13 @@
               }
             },
             "url": {
-              "raw": "{{HOST}}/games",
+              "raw": "{{HOST}}/api/v2/games",
               "host": [
                 "{{HOST}}"
               ],
               "path": [
+                "api",
+                "v2",
                 "games"
               ]
             }
