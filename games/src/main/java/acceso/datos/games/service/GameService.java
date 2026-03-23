@@ -1,10 +1,12 @@
 package acceso.datos.games.service;
 
 import acceso.datos.games.domain.Game;
+import acceso.datos.games.domain.GameV2;
 import acceso.datos.games.dto.GameDto;
 import acceso.datos.games.dto.GameOutDto;
 import acceso.datos.games.exception.GameNotFoundException;
 import acceso.datos.games.repository.GameRepository;
+import acceso.datos.games.repository.GameRepositoryV2;
 import acceso.datos.games.util.DateUtil;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -20,10 +22,16 @@ public class GameService {
     @Autowired
     private GameRepository gameRepository;
     @Autowired
+    private GameRepositoryV2 gameRepositoryV2;
+    @Autowired
     private ModelMapper modelMapper;
 
     public Game add(Game game) {
         return gameRepository.save(game);
+    }
+
+    public GameV2 addV2(GameV2 game) {
+        return gameRepositoryV2.save(game);
     }
 
     public void delete(long id) throws GameNotFoundException {
