@@ -20,7 +20,7 @@ services:
     networks:
       - network-games
   games-api:
-    image: games-api
+    image: cristinasv/games:0.1
     container_name: games-api
     ports:
       - "8080:8080"
