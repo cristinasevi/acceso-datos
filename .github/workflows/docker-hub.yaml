@@ -19,7 +19,9 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
       - run: mvn package
+        working-directory: games
       - run: docker build -t cristinasv/games .
+        working-directory: games
       #      - run: docker compose up -d
       #      - run: npm install -g newman
       #      - run: newman run Games.postman_collection.json -e local.postman_environment.json
